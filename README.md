@@ -50,10 +50,12 @@ We aim to **emphasize real-time recording and inference in our project, to enabl
 ## Iteration 1
 * Gather requirements for the project,Define project scope and objectives. Set up project repository on GitHub and add team members as collaborators
 * Familiarize with the technologies and the concepts.
+* Divide the project into small parts and assign to each member.
 * Set up the environment required to run the model.
 * Develop the app interface using Apple's Xcode IDE.
 * Implement the interface for the app's camera feature and integrate image capture and storage capabilities. Implement basic image processing functions to convert images to input format required by the segmentation model.
 ## Iteration 2
+* Individual assignment Of each Team memeber to be determined
 * Perform preliminary testing of the model to assess its precision and pinpoint opportunities for enhancement.
 * Modifying the model as required to boost its precision.
 * Validating the complete functionality of the model to guarantee that it satisfies the project specifications.
