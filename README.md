@@ -87,12 +87,16 @@ Finally, we will be utilizing the **DeepLabV3 machine learning model**. DeepLabV
 
 By combining these technologies, we hope to create an iOS application that provides users with real-time feedback on object segmentation and face parsing results. Our application has a wide range of applications, including image editing, augmented reality. We are excited to work as a team and utilize these cutting-edge technologies to bring this project to fruition.
 ### Project Sprint and involvement by each Team member
-
+#### Team Discussion ####-
+For the first iteration, We discussed and learned about the Machine Learning models that we going to use in this project like DeepLabV3 that it allows the model to capture contextual information at multiple scales, which is essential for accurate semantic segmentation. DeepLabv3 is an efficient model for semantic segmentation that is able to achieve state-of-the-art performance while keeping the computational cost low.
+**Venkata Sai Shalini Ganni** started with creating the application User Interface. **Narasimha Naidu Kommi**, **Prashanth Sammanu**, **Siva Naga Rutwik Reddy Chintha** has developed the further controllers in the app such as CustomTextField, DataModel, HomePageViewController, UIButton, CustomTableViewCell. We discussed about the technologies to use in the project and got a clear view of making this application more efficient.
 
 ### Staring with IOS App interface
 
 
 ### Getting the knowledge of the ML Model
+
+
 ## Iteration 2
 * Individual assignment Of each Team memeber to be determined
 * Perform preliminary testing of the model to assess its precision and pinpoint opportunities for enhancement.
@@ -114,31 +118,4 @@ By combining these technologies, we hope to create an iOS application that provi
 ## Iteration 5
 * Get the project documentation ready.
 * Construct the presentation and present the completed project.
-<<<<<<< HEAD
 
-# Status tracker for iteration1 of the Project
-## Requirement Analysis and project objectives
-
-
-## Technology Acquitance
-As a team, we are excited to share with you the technologies we plan to use in our project, Object Segmentation with Face Parsing. Our goal is to develop an iOS application that allows users to upload images and perform object segmentation and face parsing using the DeepLabV3 machine learning model. Here are some key technologies we will be using:
-
-Firstly, we will be using iOS application development as our primary platform. This will allow us to create a user-friendly interface using Swift as our programming language and Xcode as our development environment. Swift is a modern programming language that is optimized for performance and safety, and Xcode provides a suite of tools for designing, building, and testing iOS applications.
-
-Secondly, we plan to use Core Machine Learning, to integrate machine learning models into our iOS application. This will enable us to run pre-trained machine learning models on iOS devices, making it possible to perform complex tasks such as object segmentation and face parsing.
-
-Finally, we will be utilizing the DeepLabV3 machine learning model. DeepLabV3 is a state-of-the-art machine learning model that is capable of identifying and labeling objects within an image. It has been trained on large datasets of images and can achieve high levels of accuracy in object segmentation tasks. With its ability to handle a wide range of image sizes, DeepLabV3 can be fine-tuned on specific datasets to improve its performance.
-
-By combining these technologies, we hope to create an iOS application that provides users with real-time feedback on object segmentation and face parsing results. Our application has a wide range of applications, including image editing, augmented reality. We are excited to work as a team and utilize these cutting-edge technologies to bring this project to fruition.
-## Project Sprint and involvement by each Team member
-Team Discussion-
-For the first iteration, We discussed and learned about the Machine Learning models that we going to use in this project like DeepLabV3 that it allows the model to capture contextual information at multiple scales, which is essential for accurate semantic segmentation. DeepLabv3 is an efficient model for semantic segmentation that is able to achieve state-of-the-art performance while keeping the computational cost low.
-**Venkata Sai Shalini Ganni** started with creating the application User Interface. **Narasimha Naidu Kommi**, **Prashanth Sammanu**, **Siva Naga Rutwik Reddy Chintha** has developed the further controllers in the app such as CustomTextField, DataModel, HomePageViewController, UIButton, CustomTableViewCell. We discussed about the technologies to use in the project and got a clear view of making this application more efficient.
-
-
-## Staring with IOS App interface
-
-
-## Getting the knowledge of the ML Model
-=======
->>>>>>> 9d60a37e7c125797e271c58d0da2099ab96383d2
