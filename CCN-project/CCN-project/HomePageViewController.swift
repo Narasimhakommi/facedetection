@@ -8,7 +8,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Create a label and add it to the view
+        
         label = UILabel()
         label.frame = CGRect(x: 0, y: 0, width: 200, height: 21)
         label.center = CGPoint(x: 160, y: 285)
@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         label.text = "Hello, World!"
         view.addSubview(label)
 
-        // Create a button and add it to the view
+        
         button = UIButton(type: .system)
         button.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
         button.center = CGPoint(x: 160, y: 350)
