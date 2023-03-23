@@ -87,12 +87,21 @@ Finally, we will be utilizing the **DeepLabV3 machine learning model**. DeepLabV
 
 By combining these technologies, we hope to create an iOS application that provides users with real-time feedback on object segmentation and face parsing results. Our application has a wide range of applications, including image editing, augmented reality. We are excited to work as a team and utilize these cutting-edge technologies to bring this project to fruition.
 ### Project Sprint and involvement by each Team member
+#### Team Discussion -
+For the first iteration, We discussed and learned about the Machine Learning models that we going to use in this project like DeepLabV3 that it allows the model to capture contextual information at multiple scales, which is essential for accurate semantic segmentation. DeepLabv3 is an efficient model for semantic segmentation that is able to give the performance while keeping the computational cost low.
+**Venkata Sai Shalini Ganni** started with creating the application User Interface. **Narasimha Naidu Kommi**, **Prashanth Sammanu**, **Siva Naga Rutwik Reddy Chintha** has developed the further controllers in the app such as CustomTextField, DataModel, HomePageViewController, UIButton, CustomTableViewCell. We discussed about the technologies to use in the project and got a clear view of making this application more efficient.
 
-
-### Staring with IOS App interface
-
+### Starting with IOS App interface
+We created an architecture diagram of the project and implemented the interface in Xcode using Swift. We created various buttons and controllers in the swift such as AppDelegate and ContentView.
 
 ### Getting the knowledge of the ML Model
+DeepLabV3 is a deep neural network architecture that uses a modified version of the convolutional neural network (CNN) called the atrous convolution or dilated convolution. The atrous convolution allows the model to capture multi-scale contextual information while maintaining spatial resolution, which is important for tasks such as image segmentation.
+
+The atrous spatial pyramid pooling (ASPP) module is a key component of the DeepLabV3 architecture. It consists of parallel convolutional layers with different dilation rates, which allows the model to capture multi-scale information. The ASPP module is followed by a decoder network that upsamples the feature maps to the original image resolution.
+
+DeepLabV3 is a powerful and flexible model for image segmentation tasks, including face parsing. Its ability to capture multi-scale contextual information and maintain spatial resolution makes it particularly well-suited for fine-grained segmentation tasks such as face parsing.
+
+
 ## Iteration 2
 * Individual assignment Of each Team memeber to be determined
 * Perform preliminary testing of the model to assess its precision and pinpoint opportunities for enhancement.
