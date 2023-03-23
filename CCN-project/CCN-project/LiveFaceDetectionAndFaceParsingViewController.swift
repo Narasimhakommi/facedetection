@@ -29,7 +29,7 @@ class LiveFaceDetectionAndFaceParsingViewController: UIViewController {
         let model = try! FaceParsing()
         return model
     }()
-    let numberOfLabels = 19 
+    let numberOfLabels = 29 
     
     var isInferencing = false
     
@@ -76,10 +76,9 @@ class LiveFaceDetectionAndFaceParsingViewController: UIViewController {
     func setUpCamera() {
         videoCapture = VideoCapture()
         videoCapture.delegate = self
-        videoCapture.fps = 50
+        videoCapture.fps = 100
         videoCapture.setUpCamera(sessionPreset: .vga640x480, position: .front) { (success) in
             if success {
-                // 초기설정이 끝나면 라이브 비디오를 시작할 수 있음
                 self.videoCapture.start()
             }
         }
