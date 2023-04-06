@@ -15,7 +15,7 @@ public class MetalRenderingDevice {
         self.commandQueue = queue
     }
 
-    func generateRenderPipelineDescriptor(_ vertexFuncName: String, _ fragmentFuncName: String, _ colorPixelFormat: MTLPixelFormat = .bgra8Unorm) throws -> MTLRenderPipelineDescriptor {
+    func generateRenderPipelineDescriptor(vertexFuncName: String, fragmentFuncName: String, colorPixelFormat: MTLPixelFormat = .bgra8Unorm) throws -> MTLRenderPipelineDescriptor {
         let framework = Bundle.main
         let resource = framework.path(forResource: "default", ofType: "metallib")!
         let library = try self.device.makeLibrary(filepath: resource)
@@ -30,7 +30,7 @@ public class MetalRenderingDevice {
         return rpd
     }
 
-    func makeRenderVertexBuffer(_ origin: CGPoint = .zero, size: CGSize) -> MTLBuffer? {
+    func makeRenderVertexBuffer(origin: CGPoint = .zero, size: CGSize) -> MTLBuffer? {
         let w = size.width, h = size.height
         let vertices = [
             Vertex(position: CGPoint(x: origin.x , y: origin.y), textCoord: CGPoint(x: 0, y: 0)),
@@ -38,17 +38,23 @@ public class MetalRenderingDevice {
             Vertex(position: CGPoint(x: origin.x + 0 , y: origin.y + h), textCoord: CGPoint(x: 0, y: 1)),
             Vertex(position: CGPoint(x: origin.x + w , y: origin.y + h), textCoord: CGPoint(x: 1, y: 1)),
         ]
-        return makeRenderVertexBuffer(vertices)
+        return makeRenderVertexBuffer(vertices: vertices)
     }
 
-    func makeRenderVertexBuffer(_ vertices: [Vertex]) -> MTLBuffer? {
+    func makeRenderVertexBuffer(vertices: [Vertex]) -> MTLBuffer? {
         return self.device.makeBuffer(bytes: vertices, length: MemoryLayout<Vertex>.stride * vertices.count, options: .cpuCacheModeWriteCombined)
     }
 
-    func makeRenderUniformBuffer(_ size: CGSize) -> MTLBuffer? {
-        let metrix = Matrix.identity
-        metrix.scaling(x: 2 / Float(size.width), y: -2 / Float(size.height), z: 1)
-        metrix.translation(x: -1, y: 1, z: 0)
-        return self.device.makeBuffer(bytes: metrix.m, length: MemoryLayout<Float>.size * 16, options: [])
+    func makeRenderUniformBuffer(size: CGSize) -> MTLBuffer? {
+        let matrix = Matrix.identity
+        matrix.scaling(x: 2 / Float(size.width), y: -2 / Float(size.height), z: 1)
+        matrix.translation(x: -1, y: 1, z: 0)
+        return self.device.makeBuffer(bytes: matrix.m, length: MemoryLayout<Float>.size * 16, options: [])
+    }
+    
+    func makeRenderTexture(pixelFormat: MTLPixelFormat, width: Int, height: Int) -> MTLTexture? {
+        let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: pixelFormat, width: width, height: height, mipmapped: false)
+        textureDescriptor.usage = [.shaderRead, .renderTarget]
+        return self.device.makeTexture(descriptor: textureDescriptor)
     }
 }
