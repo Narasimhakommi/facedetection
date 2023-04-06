@@ -118,6 +118,71 @@ DeepLabV3 is a powerful and flexible model for image segmentation tasks, includi
 
 ## Status tracker for iteration3 of the Project
 
+### 1. CameraTextureGenerater
+The CameraTextureGenerater class creates Texture objects from camera frames or sample files. The camera data is handled by the CoreMedia framework.
+
+The sourceKey property of the CameraTextureGenerater is used to determine the texture's source. It also has a videoTextureCache property for creating and managing video images. The videoTextureCache is created by the init procedure using the CVMetalTextureCacheCreate function.
+
+Texture objects are returned by the texture function, which accepts a CVPixelBuffer or a CMSampleBuffer as input. It first obtains the buffer's breadth and height before generating a CVMetalTexture with the CVMetalTextureCacheCreateTextureFromImage function. Then it retrieves the underlying MTLTexture from the CVMetalTexture and uses it to build a Texture object.
+
+The Texture object holds the image and its source key. It is used in the rendering pipeline to map textures to particular areas of the screen.
+
+### 2.	CroppedTextureGenerater
+CroppedTextureGenerater has a texture method that takes a source texture (source1) and a source region (sourceRegion) and returns a cropped texture.
+
+Metal Performance Shaders (MPS), a framework for accelerating image processing on Apple devices, were used to create the cropped texture. The MPSImageLanczosScale filter, in particular, is used to scale and crop the input texture based on the sourceRegion.
+
+The scaleX and scaleY variables compute the scaling factors used to convert the size of the source region to the size of the destination region. Before scaling, the translateX and translateY variables calculate the translation amounts required to move the source region to the origin.
+
+Finally, using the scaling and translation values, an MPSScaleTransform object is created, which is then used to configure the MPSImageLanczosScale filter. The filter is then used to encode a command buffer that scales and crops the source texture before returning the resulting output texture.
+
+### 3.  MaskTextureGenerater
+
+MaskTextureGenerater class that generates a new texture by applying a mask to another texture. The class uses MetalKit and MetalPerformanceShaders libraries for GPU-accelerated rendering.
+
+The class has a private pipelineState property, which holds a Metal render pipeline state used to render the mask onto the output texture. The textureBuffer1 and textureBuffer2 properties hold buffers used to store texture coordinates.
+
+The generateTextureBuffer method generates texture coordinates for the input textures and the output texture. These coordinates are used to crop the textures to the same size before applying the mask.
+
+The texture method takes two input Texture objects and returns a new Texture object. The method creates a render pass descriptor with a single color attachment and sets the attachment's texture as the output texture. It then creates a command buffer and a render command encoder and sets the appropriate vertex and fragment buffers, textures, and pipeline state. Finally, it draws a rectangle strip of four vertices to render the mask onto the output texture.
+
+### 4.	MetalRenderingDevice
+
+Device and commandQueue are two properties of MetalRenderingDevice.
+The MetalRenderingDevice class contains several methods that help create and manage render pipelines and buffers for graphics rendering, such as generateRenderPipelineDescriptor, makeRenderVertexBuffer, and makeRenderVertexBuffer.
+The generateRenderPipelineDescriptor method returns a render pipeline descriptor that can be used to create a render pipeline state object that describes how to render a specific object.
+The makeRenderVertexBuffer method generates a vertex buffer with the specified vertices that is used to store vertex data for rendering.
+The Vertex struct is used to store vertices' position and texture coordinate data.
+The code also defines a global shared MetalRenderingDevice instance that can be used to access the device and queue properties from anywhere in the code.
+
+
+### 5.	MetalVideoView
+
+MetalVideoView is an MTKView. It has a property of type Texture called currentTexture that represents the current texture to be displayed in the view. It also includes a setup() function for configuring the Metal device and pipeline state, as well as a draw() function for rendering the current texture to the view. The rendering process begins with the creation of a command buffer, a render pass descriptor, and a render command encoder, followed by the configuration of the render pipeline state, vertex and uniform buffers, and texture. Finally, the encoder is instructed to draw a four-vertex triangle strip, and the command buffer is displayed to the viewer.
+
+
+### 6.	MultitargetSegmentationTextureGenerater
+
+
+The MultitargetSegmentationTextureGenerater that generates a texture for multitarget segmentation from a given segmentation map. The class contains a setupPiplineState function that sets up the Metal render pipeline state and vertex and uniform buffers. The texture function takes a segmentation map, row and column values, and number of classes as input and returns a texture generated from the segmentation map using Metal rendering techniques. The texture function sets up a Metal command encoder and performs a rendering pass to create the output texture.
+
+### 7.	OverlayingTexturesGenerater
+
+This is a class named OverlayingTexturesGenerater which generates a new texture by overlaying two input textures. It uses MetalKit framework and implements the MTKViewDelegate protocol.
+
+The class has a pipeline state property that is used to render the textures. It has two texture buffers that are generated with the generateTextureBuffer function based on the dimensions of the input textures and the desired output dimensions.
+
+The texture function is the main function of the class. It takes two input textures and generates a new output texture by overlaying the two textures. It first creates a render pass descriptor and sets up the output texture as the color attachment. It then creates a command buffer and a render command encoder. It sets up the vertex buffer and the texture buffers, as well as the input textures and the uniform buffer for the alpha value. Finally, it draws the primitive and commits the command buffer.
+
+
+
+### 8.	SegmentationTextureGenerater
+
+SegmentationTextureGenerater, which generates a Metal texture based on the segmentation output of a Core ML model. It has a texture method that accepts an MLMultiArray segmentation map, the target texture's dimensions, and a target class as input and returns a Metal Texture object. There is also a setupPipelineState method in the class that configures the Metal rendering pipeline state used by the texture method.
+
+### 9.	Texture
+
+Texture class that represents a Metal texture object. It has two properties: texture of type MTLTexture which stores the actual texture object and textureKey of type String which can be used to associate a key with the texture for identification purposes. The class has two initializers, one that takes an existing MTLTexture object and an optional textureKey and another that creates a new texture of specified dimensions and pixel format using the sharedMetalRenderingDevice singleton and assigns it to the texture property.
 
 ## Iteration 4
 * Implement real-time video segmentation and integrate it with the camera feature..
