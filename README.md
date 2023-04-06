@@ -115,6 +115,10 @@ DeepLabV3 is a powerful and flexible model for image segmentation tasks, includi
 * CImplement segmentation features for the additional facial features
 * IImprove the app's user interface and usability. Add gpu in the mobile application.
 * Examine the system's complete operation and, in the event of any problems, troubleshoot and eliminate them to guarantee the application operates seamlessly.
+
+## Status tracker for iteration3 of the Project
+
+
 ## Iteration 4
 * Implement real-time video segmentation and integrate it with the camera feature..
 * Optimize the app's performance and memory usage. Support face parsing and object segmentation model.
