@@ -1,5 +1,5 @@
 import Foundation
-import AVFoundation
+import Metal
 
 public class Texture {
     let texture: MTLTexture
@@ -10,8 +10,8 @@ public class Texture {
         self.textureKey = textureKey
     }
 
-    public init(_ width: Int, _ height: Int, pixelFormat: MTLPixelFormat = .bgra8Unorm, textureKey: String = "") {
-        let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .bgra8Unorm,
+    public convenience init(_ width: Int, _ height: Int, pixelFormat: MTLPixelFormat = .bgra8Unorm, textureKey: String = "") {
+        let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: pixelFormat,
                                                                          width: width,
                                                                          height: height,
                                                                          mipmapped: false)
@@ -21,7 +21,6 @@ public class Texture {
             fatalError("Could not create texture of size: (\(width), \(height))")
         }
 
-        self.texture = newTexture
-        self.textureKey = textureKey
+        self.init(texture: newTexture, textureKey: textureKey)
     }
 }
