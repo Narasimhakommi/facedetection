@@ -77,15 +77,15 @@ class OverlayingTexturesGenerater: NSObject {
         attachment?.loadAction = .clear
         attachment?.storeAction = .store
         
-        // command buffer 준비
+       
         let commandBuffer = sharedMetalRenderingDevice.commandQueue.makeCommandBuffer()
-        // command encoder 생성
+       
         let commandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
 
         commandEncoder?.setFrontFacing(.counterClockwise)
         commandEncoder?.setRenderPipelineState(pipelineState)
         
-        // vertex buffer 준비
+       
         let vertexBuffer = sharedMetalRenderingDevice.device.makeBuffer(bytes: standardImageVertices,
                                                                         length: standardImageVertices.count * MemoryLayout<Float>.size,
                                                                         options: [])!
@@ -94,7 +94,7 @@ class OverlayingTexturesGenerater: NSObject {
         commandEncoder?.setVertexBuffer(textureBuffer1, offset: 0, index: 1)
         commandEncoder?.setVertexBuffer(textureBuffer2, offset: 0, index: 2)
 
-        // fragment texture, buffer 준비
+       
         commandEncoder?.setFragmentTexture(source1.texture, index: 0)
         commandEncoder?.setFragmentTexture(source2.texture, index: 1)
         let uniformBuffer = sharedMetalRenderingDevice.device.makeBuffer(bytes: [alphaValue],
@@ -102,11 +102,11 @@ class OverlayingTexturesGenerater: NSObject {
                                                                          options: [])!
         commandEncoder?.setFragmentBuffer(uniformBuffer, offset: 0, index: 1)
         
-        // privitive 설정
+       
         commandEncoder?.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4)
-        // command encoder 끝
+      
         commandEncoder?.endEncoding()
-        // 실행
+     
         commandBuffer?.commit()
         
         return outputTexture
