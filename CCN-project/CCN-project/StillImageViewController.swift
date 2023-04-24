@@ -1,18 +1,21 @@
+
+
 import UIKit
 import Vision
 
 class StillImageViewController: UIViewController {
 
-    
+    // MARK: - UI Properties
     @IBOutlet weak var mainImageView: UIImageView!
     @IBOutlet weak var drawingView: DrawingSegmentationView!
     
     let imagePickerController = UIImagePickerController()
     
-    
+    // MARK - Core ML model
+    // DeepLabV3(iOS12+), DeepLabV3FP16(iOS12+), DeepLabV3Int8LUT(iOS12+)
     let segmentationModel = DeepLabV3()
     
-    
+    // MARK: - Vision Properties
     var request: VNCoreMLRequest?
     var visionModel: VNCoreMLModel?
     
@@ -30,7 +33,7 @@ class StillImageViewController: UIViewController {
         self.present(imagePickerController, animated: true)
     }
     
-    
+    // MARK: - Setup Core ML
     func setUpModel() {
         if let visionModel = try? VNCoreMLModel(for: segmentationModel.model) {
             self.visionModel = visionModel
@@ -42,6 +45,7 @@ class StillImageViewController: UIViewController {
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate & UINavigationControllerDelegate
 extension StillImageViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage,
@@ -53,6 +57,7 @@ extension StillImageViewController: UIImagePickerControllerDelegate, UINavigatio
     }
 }
 
+// MARK: - Inference
 extension StillImageViewController {
     // prediction
     func predict(with url: URL) {

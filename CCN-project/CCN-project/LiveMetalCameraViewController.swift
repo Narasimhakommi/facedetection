@@ -3,40 +3,35 @@
 import UIKit
 import Vision
 
-class LiveImageViewController: UIViewController {
+class LiveMetalCameraViewController: UIViewController {
 
     // MARK: - UI Properties
-    @IBOutlet weak var videoPreview: UIView!
+    @IBOutlet weak var metalVideoPreview: MetalVideoView!
     @IBOutlet weak var drawingView: DrawingSegmentationView!
     
     @IBOutlet weak var inferenceLabel: UILabel!
     @IBOutlet weak var etimeLabel: UILabel!
     @IBOutlet weak var fpsLabel: UILabel!
     
+    var cameraTextureGenerater = CameraTextureGenerater()
+    var multitargetSegmentationTextureGenerater = MultitargetSegmentationTextureGenerater()
+    var overlayingTexturesGenerater = OverlayingTexturesGenerater()
+    
+    var cameraTexture: Texture?
+    var segmentationTexture: Texture?
+    
     // MARK: - AV Properties
     var videoCapture: VideoCapture!
     
     // MARK - Core ML model
-    // DeepLabV3(iOS12+), DeepLabV3FP16(iOS12+), DeepLabV3Int8LUT(iOS12+)
-    // FaceParsing(iOS14+)
-    lazy var segmentationModel = {
-        return try! DeepLabV3()
-    }()
-
-//    11 Pro
-//    DeepLabV3        : 37 465 1
-//    DeepLabV3FP16    : 40 511 1
-//    DeepLabV3Int8LUT : 40 520 1
-//
-//    XS
-//    DeepLabV3        : 135 409 2
-//    DeepLabV3FP16    : 136 403 2
-//    DeepLabV3Int8LUT : 135 412 2
-//
-//    X
-//    DeepLabV3        : 177 531 1
-//    DeepLabV3FP16    : 177 530 1
-//    DeepLabV3Int8LUT : 177 517 1
+    /// DeepLabV3(iOS12+), DeepLabV3FP16(iOS12+), DeepLabV3Int8LUT(iOS12+)
+    /// - labels: ["background", "aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow", "diningtable", "dog", "horse", "motorbike", "person", "pottedplant", "sheep", "sofa", "train", "tv"]
+    /// - number of labels: 21
+    /// FaceParsing(iOS14+)
+    /// - labels:  ["background", "skin", "l_brow", "r_brow", "l_eye", "r_eye", "eye_g", "l_ear", "r_ear", "ear_r", "nose", "mouth", "u_lip", "l_lip", "neck", "neck_l", "cloth", "hair", "hat"]
+    /// - number of labels: 19
+    lazy var segmentationModel = { return try! DeepLabV3() }()
+    let numberOfLabels = 21 // <#if you changed the segmentationModel, you have to change the numberOfLabels#>
     
     // MARK: - Vision Properties
     var request: VNCoreMLRequest?
@@ -85,7 +80,7 @@ class LiveImageViewController: UIViewController {
         if let visionModel = try? VNCoreMLModel(for: segmentationModel.model) {
             self.visionModel = visionModel
             request = VNCoreMLRequest(model: visionModel, completionHandler: visionRequestDidComplete)
-            request?.imageCropAndScaleOption = .scaleFill
+            request?.imageCropAndScaleOption = .centerCrop
         } else {
             fatalError()
         }
@@ -96,43 +91,30 @@ class LiveImageViewController: UIViewController {
         videoCapture = VideoCapture()
         videoCapture.delegate = self
         videoCapture.fps = 50
-        videoCapture.setUp(sessionPreset: .vga640x480) { success in
+        videoCapture.setUp(sessionPreset: .hd1280x720) { success in
             
             if success {
-                // UI에 비디오 미리보기 뷰 넣기
-                if let previewLayer = self.videoCapture.makePreview() {
-                    self.videoPreview.layer.addSublayer(previewLayer)
-                    self.resizePreviewLayer()
-                }
-                
                 // 초기설정이 끝나면 라이브 비디오를 시작할 수 있음
                 self.videoCapture.start()
             }
         }
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        resizePreviewLayer()
-    }
-    
-    func resizePreviewLayer() {
-        videoCapture.previewLayer?.frame = videoPreview.bounds
-    }
 }
 
 // MARK: - VideoCaptureDelegate
-extension LiveImageViewController: VideoCaptureDelegate {
+extension LiveMetalCameraViewController: VideoCaptureDelegate {
     func videoCapture(_ capture: VideoCapture, didCaptureVideoSampleBuffer sampleBuffer: CMSampleBuffer) {
-        let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         
-        // the captured image from camera is contained on pixelBuffer
-        if let pixelBuffer = pixelBuffer, !isInferencing {
+        // 카메라 프리뷰 텍스쳐
+        cameraTexture = cameraTextureGenerater.texture(from: sampleBuffer)
+        
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        if !isInferencing {
             isInferencing = true
-            
+
             // start of measure
             self.👨‍🔧.🎬👏()
-            
+
             // predict!
             predict(with: pixelBuffer)
         }
@@ -140,7 +122,7 @@ extension LiveImageViewController: VideoCaptureDelegate {
 }
 
 // MARK: - Inference
-extension LiveImageViewController {
+extension LiveMetalCameraViewController {
     // prediction
     func predict(with pixelBuffer: CVPixelBuffer) {
         guard let request = request else { fatalError() }
@@ -156,13 +138,20 @@ extension LiveImageViewController {
         
         if let observations = request.results as? [VNCoreMLFeatureValueObservation],
             let segmentationmap = observations.first?.featureValue.multiArrayValue {
+            guard let row = segmentationmap.shape[0] as? Int,
+                let col = segmentationmap.shape[1] as? Int else {
+                    return
+            }
             
-            let segmentationResultMLMultiArray = SegmentationResultMLMultiArray(mlMultiArray: segmentationmap)
+            guard let cameraTexture = cameraTexture,
+                  let segmentationTexture = multitargetSegmentationTextureGenerater.texture(segmentationmap, row, col, numberOfLabels) else {
+                return
+            }
+            
+            let overlayedTexture = overlayingTexturesGenerater.texture(cameraTexture, segmentationTexture)
+            metalVideoPreview.currentTexture = overlayedTexture
+            
             DispatchQueue.main.async { [weak self] in
-                // update result
-                self?.drawingView.segmentationmap = segmentationResultMLMultiArray
-                
-                // end of measure
                 self?.👨‍🔧.🎬🤚()
                 self?.isInferencing = false
             }
@@ -175,7 +164,7 @@ extension LiveImageViewController {
 }
 
 // MARK: - 📏(Performance Measurement) Delegate
-extension LiveImageViewController: 📏Delegate {
+extension LiveMetalCameraViewController: 📏Delegate {
     func updateMeasure(inferenceTime: Double, executionTime: Double, fps: Int) {
         self.maf1.append(element: Int(inferenceTime*1000.0))
         self.maf2.append(element: Int(executionTime*1000.0))
@@ -184,23 +173,5 @@ extension LiveImageViewController: 📏Delegate {
         self.inferenceLabel.text = "inference: \(self.maf1.averageValue) ms"
         self.etimeLabel.text = "execution: \(self.maf2.averageValue) ms"
         self.fpsLabel.text = "fps: \(self.maf3.averageValue)"
-    }
-}
-
-class MovingAverageFilter {
-    private var arr: [Int] = []
-    private let maxCount = 10
-    
-    public func append(element: Int) {
-        arr.append(element)
-        if arr.count > maxCount {
-            arr.removeFirst()
-        }
-    }
-    
-    public var averageValue: Int {
-        guard !arr.isEmpty else { return 0 }
-        let sum = arr.reduce(0) { $0 + $1 }
-        return Int(Double(sum) / Double(arr.count))
     }
 }

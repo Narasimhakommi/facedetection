@@ -1,3 +1,5 @@
+
+
 import CoreML
 
 class SegmentationPostProcessor {
@@ -6,7 +8,7 @@ class SegmentationPostProcessor {
             print("heatmap's shape is invalid. \(heatmaps.shape)")
             return []
         }
-        let _ = heatmaps.shape[0].intValue
+        let _/*keypoint_number*/ = heatmaps.shape[0].intValue
         let heatmap_w = heatmaps.shape[1].intValue
         let heatmap_h = heatmaps.shape[2].intValue
         

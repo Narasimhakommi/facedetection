@@ -1,3 +1,5 @@
+
+
 import UIKit
 
 class DrawingSegmentationView: UIView {
@@ -48,6 +50,6 @@ class DrawingSegmentationView: UIView {
                 }
             }
         }
-    } 
+    } // end of draw(rect:)
 
 }
