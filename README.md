@@ -9,7 +9,7 @@
 1. Xcode application (14.3 version)
 2. emulator with Ios 12+ versions
 
-diagram shows the project in a more detailed way:
+# Diagram shows the project in a more detailed way:
 ![Screenshot](img1.png)
 ![Screenshot](img2.png)
 
@@ -64,16 +64,6 @@ We aim to **emphasize real-time recording and inference in our project, to enabl
 
 ![Screenshot](pytorch_to_coreml.png)
 
-# Project Plan based on two weeks iteration
-## Iteration 1
-* Gather requirements for the project,Define project scope and objectives. Set up project repository on GitHub and add team members as collaborators
-* Familiarize with the technologies and the concepts.
-* Divide the project into small parts and assign to each member.
-* Set up the environment required to run the model.
-* Develop the app interface using Apple's Xcode IDE.
-* Implement the interface for the app's camera feature and integrate image capture and storage capabilities. Implement basic image processing functions to convert images to input format required by the segmentation model.
-
-## Status tracker for iteration1 of the Project
 ### Requirement Analysis and project objectives
 ####  Requirement Analysis:
 * Core Machine Learning: We will be using Core Machine Learning to integrate machine learning models into the IOS application. This will allow us to perform complex tasks such as Object Segmentation with Face Parsing.
@@ -104,7 +94,6 @@ Secondly, we plan to use Core Machine Learning, to integrate machine learning mo
 Finally, we will be utilizing the **DeepLabV3 machine learning model**. DeepLabV3 is a state-of-the-art machine learning model that is capable of identifying and labeling objects within an image. It has been trained on large datasets of images and can achieve high levels of accuracy in object segmentation tasks. With its ability to handle a wide range of image sizes, DeepLabV3 can be fine-tuned on specific datasets to improve its performance.
 
 By combining these technologies, we hope to create an iOS application that provides users with real-time feedback on object segmentation and face parsing results. Our application has a wide range of applications, including image editing, augmented reality. We are excited to work as a team and utilize these cutting-edge technologies to bring this project to fruition.
-### Project Sprint and involvement by each Team member
 
 ### Starting with IOS App interface
 We created an architecture diagram of the project and implemented the interface in Xcode using Swift. We created various buttons and controllers in the swift such as AppDelegate and ContentView.
