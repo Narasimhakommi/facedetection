@@ -5,6 +5,24 @@
 * Siva Naga Rutwik Reddy Chintha
 * Prashanth Sammanu
 
+# Software requirements
+1. Xcode application (14.3 version)
+2. emulator with Ios 12+ versions
+
+diagram shows the project in a more detailed way:
+![Screenshot](img1.png)
+![Screenshot](img2.png)
+
+# Steps to run the project
+
+1. Download the code from Github
+2. Install Xcode application on your MacOS(We installed 14.3 version)
+3. Connect an emulator with Ios 12+ versions as they only support the application to run the libraries. Use a Usb C To Usb C Cable to connect the laptop and emulator device.
+4. Run the .xcodeproj file by clicking the play button the top left corner. This step should install the Object Segmentation application on your iOS device.
+5. Upon successful installation you can explore the features of the application based on our demo.
+
+
+
 #  Introduction
 This project is to utilize Core Machine Learning to perform Object Segmentation with Face Parsing and develop a mobile application, specifically for IOS. To achieve this, we will be utilizing various models throughout the project.
 ## Implementation Methodology
@@ -87,9 +105,6 @@ Finally, we will be utilizing the **DeepLabV3 machine learning model**. DeepLabV
 
 By combining these technologies, we hope to create an iOS application that provides users with real-time feedback on object segmentation and face parsing results. Our application has a wide range of applications, including image editing, augmented reality. We are excited to work as a team and utilize these cutting-edge technologies to bring this project to fruition.
 ### Project Sprint and involvement by each Team member
-#### Team Discussion -
-For the first iteration, We discussed and learned about the Machine Learning models that we going to use in this project like DeepLabV3 that it allows the model to capture contextual information at multiple scales, which is essential for accurate semantic segmentation. DeepLabv3 is an efficient model for semantic segmentation that is able to give the performance while keeping the computational cost low.
-**Venkata Sai Shalini Ganni** started with creating the application User Interface. **Narasimha Naidu Kommi**, **Prashanth Sammanu**, **Siva Naga Rutwik Reddy Chintha** has developed the further controllers in the app such as CustomTextField, DataModel, HomePageViewController, UIButton, CustomTableViewCell. We discussed about the technologies to use in the project and got a clear view of making this application more efficient.
 
 ### Starting with IOS App interface
 We created an architecture diagram of the project and implemented the interface in Xcode using Swift. We created various buttons and controllers in the swift such as AppDelegate and ContentView.
@@ -100,23 +115,6 @@ DeepLabV3 is a deep neural network architecture that uses a modified version of 
 The atrous spatial pyramid pooling (ASPP) module is a key component of the DeepLabV3 architecture. It consists of parallel convolutional layers with different dilation rates, which allows the model to capture multi-scale information. The ASPP module is followed by a decoder network that upsamples the feature maps to the original image resolution.
 
 DeepLabV3 is a powerful and flexible model for image segmentation tasks, including face parsing. Its ability to capture multi-scale contextual information and maintain spatial resolution makes it particularly well-suited for fine-grained segmentation tasks such as face parsing.
-
-
-## Iteration 2
-* Individual assignment Of each Team memeber to be determined
-* Perform preliminary testing of the model to assess its precision and pinpoint opportunities for enhancement.
-* Modifying the model as required to boost its precision.
-* Validating the complete functionality of the model to guarantee that it satisfies the project specifications.
-* Add Video capture and support DeepLabV3 model on LiveImageViewController.
-* Predict an image imported from our device’s photo library. Configuring Colour range. 
-* Adding Inference time in the mobile application. 
-## Iteration 3
-* Expand the segmentation model.
-* CImplement segmentation features for the additional facial features
-* IImprove the app's user interface and usability. Add gpu in the mobile application.
-* Examine the system's complete operation and, in the event of any problems, troubleshoot and eliminate them to guarantee the application operates seamlessly.
-
-## Status tracker for iteration3 of the Project
 
 ### 1. CameraTextureGenerater
 The CameraTextureGenerater class creates Texture objects from camera frames or sample files. The camera data is handled by the CoreMedia framework.
@@ -184,11 +182,3 @@ SegmentationTextureGenerater, which generates a Metal texture based on the segme
 
 Texture class that represents a Metal texture object. It has two properties: texture of type MTLTexture which stores the actual texture object and textureKey of type String which can be used to associate a key with the texture for identification purposes. The class has two initializers, one that takes an existing MTLTexture object and an optional textureKey and another that creates a new texture of specified dimensions and pixel format using the sharedMetalRenderingDevice singleton and assigns it to the texture property.
 
-## Iteration 4
-* Implement real-time video segmentation and integrate it with the camera feature..
-* Optimize the app's performance and memory usage. Support face parsing and object segmentation model.
-* Adding app tab item and page for tracking face and segmenting it. 
-* If issues are found, analyze the root cause and take necessary actions to resolve them.
-## Iteration 5
-* Get the project documentation ready.
-* Construct the presentation and present the completed project.
